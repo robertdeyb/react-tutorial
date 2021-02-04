@@ -1,7 +1,24 @@
 import './App.css';
 import React, { Component } from 'react';
-import Radium, {StyleRoot} from 'radium';
 import Person from './Person/Person';
+import styled from 'styled-components';
+
+
+const StyledButton = styled.button`
+  background-color: ${props => props.alt === "true" ? 'red' : 'green'};
+  color: white;
+  font: inherit;
+  border: 1px solid blue;
+  padding: '10px';
+  cursor: pointer;
+  
+  &:hover {
+    background-color: ${props => props.alt === "true" ? 'salmon' : 'lighgreen'};
+    color: black;
+  }
+
+`;
+
 class App extends Component {
   state = {
     persons: [
@@ -45,17 +62,6 @@ class App extends Component {
     this.setState({showPerson: !valueShowPerson});
   }
   render() {
-    const style = {
-      backgroundColor: 'green',
-      color: "white",
-      border: '1px solid blue',
-      padding: '10px',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
-    }
     let persons = null;
     if (this.state.showPerson) {
       persons = (
@@ -71,11 +77,7 @@ class App extends Component {
           }
         </div>
       );
-      style.backgroundColor = "red";
-      style[":hover"] = {
-        backgroundColor: 'salmon',
-        color: 'white'
-      }
+      
     }
     const colors = [];
 
@@ -87,21 +89,19 @@ class App extends Component {
       colors.push("bold");
     }
     return (
-      <StyleRoot>
         <div className="App">
           <h1>Hi, I'm a React App</h1>
           <p className={colors.join(" ")}>This is really Working!</p>
-          <button 
+          <StyledButton 
+            alt={this.state.showPerson.toString()}
             onClick={this.togglePersons}
-            style = {style}
-          >Toggle Persons</button>
+          >Toggle Persons</StyledButton>
           {persons}
         </div>
-      </StyleRoot>
       
     )
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Sample Text'));
   }
 }
 
-export default Radium(App);
+export default App;
